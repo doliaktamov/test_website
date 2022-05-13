@@ -34,14 +34,14 @@ class AnswerSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data['question']:
             question = data['question']
-            if question.type == 'Текст':
-                raise serializers.ValidationError('У данного вопроса тип "текст"')
+            if question.type == 'Выбор':
+                raise serializers.ValidationError('У данного вопроса тип "Выбор"')
         return data
     
 class ResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
-        fields = ['category', 'question', 'answer',]
+        fields = ['question', 'answer', ]
         read_only_fields = ['user',]
 
     def validate(self, data):

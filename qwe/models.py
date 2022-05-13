@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -34,7 +35,8 @@ class Result(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.CharField(max_length=255)
-    time = models.IntegerField()
+    time = models.DateTimeField(auto_now_add=datetime.now())
 
     def __str__(self):
         return self.user.username
+
