@@ -7,7 +7,7 @@ from qwe import permissions
 from .serializers import *
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.authentication import TokenAuthentication, SessionAuthentication
-from .models import Question, Answer, Result
+from .models import Question, Answer, Result, Category
 from rest_framework.viewsets import ModelViewSet
 
 User = get_user_model()
@@ -32,11 +32,17 @@ class UserCreateAPIView(CreateAPIView):
         serializer.validated_data['is_staff'] = False
         serializer.save()
     
-class QuestionAPIViewSet(ModelViewSet):
+class QuestionViewSet(ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     authentication_classes = [TokenAuthentication, SessionAuthentication]
     permission_classes = [permissions.IsAdminAuthentiocation]
+
+class AnswerViewSet(ModelViewSet):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [permissions.IsAdminAuthentiocation, ]
 
 class UserCreateAPIView(ModelViewSet):
     queryset = User.objects.all()
@@ -54,4 +60,10 @@ class ResultCreateAPIView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-    
+
+
+class CategoryViewSet(ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAdminUser, ]

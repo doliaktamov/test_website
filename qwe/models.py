@@ -3,7 +3,15 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+class Category(models.Model):
+    name = models.CharField(max_length=255)
+    time_limit = models.IntegerField()
+
+    def __str__(self):
+        return self.name
+
 class Question(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     text = models.CharField(max_length=255)
     TYPE_CHOICES = (
         ('Текст', 'Text'),
@@ -17,6 +25,7 @@ class Question(models.Model):
 class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     text = models.CharField(max_length=255)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.text
