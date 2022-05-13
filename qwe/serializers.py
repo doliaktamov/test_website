@@ -1,7 +1,9 @@
 from dataclasses import field
+from urllib import request
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Answer, Question, Anwer, Result
+from .models import Answer, Question, Result, Category
+from datetime import datetime
 
 User = get_user_model()
 
@@ -39,7 +41,7 @@ class AnswerSerializer(serializers.ModelSerializer):
 class ResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
-        fields = '__all__'
+        fields = ['category', 'question', 'answer',]
         read_only_fields = ['user',]
 
     def validate(self, data):
@@ -50,3 +52,15 @@ class ResultSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError('У данного вопроса тип "выбор". Ответ не из выбора')
         return data
 
+    def validate_time(self, data):
+        if request.method == 'POST':
+            time = data['time']
+            question = data['question']
+            if (datetime.now() - time).minutes > question.category.time_limit:
+                raise serializers.ValidationError('Time is up')
+        return data
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = '__all__'
