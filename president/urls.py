@@ -14,7 +14,7 @@ router.register('category', views.CategoryViewSet, basename='category')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('create-admin/', views.AdminCreateAPIView.as_view()),
-    path('result/', views.ResultCreateAPIView()),
+    path('result/', views.ResultCreateAPIView.as_view()),
     path('auth/', include('rest_framework.urls')),
     path('register/', views.UserCreateAPIView.as_view()),
     path('get-token/', obtain_auth_token),
