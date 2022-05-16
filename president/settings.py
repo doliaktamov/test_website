@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-pf!pp4u!$y%l-%%!t)l=ik&1w7(kx_l&ft$rx#r1xe!h9cj($r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['survey-drf-app.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
